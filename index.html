@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mis XV Años - Issa</title>
+    <!-- Fuentes Elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --lila-soft: #f8f4ff;
+            --lila-medio: #d1b3e6;
+            --lila-oscuro: #8e44ad;
+            --dorado: #c5a059;
+            --texto: #2c3e50;
+            --overlay-light: rgba(255, 255, 255, 0.9);
+            
+            /* Colores del Sobre */
+            --envelope-gray: #9ca3af;
+            --envelope-silver: #e5e7eb;
+            --envelope-dark: #4b5563;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: url('images/bk_pink.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--texto);
+            line-height: 1.4;
+            overflow-x: hidden;
+            background-color: var(--lila-soft);
+        }
+
+        /* --- ESTILOS DEL SOBRE ANIMADO --- */
+        #envelope-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--lila-soft);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: var(--envelope-gray);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.5s;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid var(--envelope-dark);
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+            z-index: 3;
+        }
+
+        .envelope-pocket {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--envelope-gray);
+            z-index: 2;
+            clip-path: polygon(0% 0%, 50% 50%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* Capa frontal para el color plateado */
+        .envelope-pocket::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--envelope-silver);
+            clip-path: polygon(0% 100%, 50% 50%, 100% 100%);
+            z-index: 4;
+        }
+
+        .envelope-seal {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: var(--dorado);
+            border-radius: 50%;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: opacity 0.3s;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        
+        .envelope.open .envelope-seal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .envelope.open {
+            animation: fadeOutEnvelope 1.5s forwards;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes fadeOutEnvelope {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; visibility: hidden; }
+        }
+
+        /* --- ESTILOS DE LA INVITACIÓN --- */
+        #main-content {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            display: none;
+        }
+
+        #main-content.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass-card {
+            background: var(--overlay-light);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+            margin: 10px 0;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 100%;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .timeline-time {
+            min-width: 85px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--dorado);
+            padding-right: 15px;
+            text-align: right;
+            padding-top: 3px;
+        }
+
+        .timeline-content {
+            border-left: 2px solid var(--dorado);
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 2px solid var(--dorado);
+            border-radius: 50%;
+        }
+
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--texto);
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            border: 1px solid var(--dorado);
+            color: var(--dorado);
+        }
+
+        .music-control.playing i {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logo-img {
+            max-width: 220px;
+            width: 80%;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.15));
+        }
+
+        .frase-resaltada {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--texto);
+            margin: 20px 0;
+            line-height: 1.6;
+            padding: 0 10px;
+            position: relative;
+        }
+
+        .frase-resaltada::before, .frase-resaltada::after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--dorado);
+            opacity: 0.5;
+            line-height: 0;
+        }
+
+        .fecha-portada {
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            border-top: 1px solid var(--dorado);
+            border-bottom: 1px solid var(--dorado);
+            padding: 5px 15px;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .time-unit {
+            background: white;
+            padding: 8px 2px;
+            border-radius: 10px;
+            border-bottom: 2px solid var(--dorado);
+        }
+
+        .time-unit span {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .time-unit label {
+            font-size: 0.55rem;
+            color: #888;
+        }
+
+        .gallery-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .gallery-item {
+            border: 6px solid white;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: #fdfdfd;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .separator {
+            width: 50px;
+            height: 1px;
+            background: var(--dorado);
+            margin: 12px auto;
+        }
+
+        .iglesia-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: flex;
+            width: 100%;
+            max-width: 280px;
+            padding: 14px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.75rem;
+            margin: 8px auto;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-calendar { background: #2c3e50; color: white; }
+        .btn-map { background: white; color: var(--texto); border: 1px solid var(--dorado); }
+        .btn-whatsapp { background: #25d366; color: white; }
+        .btn-liverpool { background: #e6007e; color: white; }
+        .btn-instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); color: white; }
+
+        .flip-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 450px;
+            margin: 10px 0;
+            height: 200px;
+        }
+
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flip-container.active .flipper {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid var(--dorado);
+        }
+
+        .front {
+            background: var(--overlay-light);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .back {
+            background: white;
+            transform: rotateY(180deg);
+            z-index: 1;
+        }
+
+        .confirm-date {
+            font-size: 1.1rem;
+            color: var(--dorado);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 15px 0;
+            display: block;
+            border: 2px dashed var(--dorado);
+            padding: 10px;
+            border-radius: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        footer {
+            padding: 20px;
+            background: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animación del Sobre -->
+    <div id="envelope-wrapper">
+        <div class="envelope" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="envelope-pocket"></div>
+            <div class="envelope-seal">ISSA</div>
+            <p style="position: absolute; bottom: -50px; left: 0; width: 100%; text-align: center; font-family: 'Playfair Display', serif; color: var(--envelope-dark); font-style: italic;">Toca para abrir invitación</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <!-- Reproductor de Audio -->
+        <audio id="bgMusic" loop>
+            <source src="images/song.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- Control de Música -->
+        <div class="music-control" id="musicToggle" onclick="toggleMusic()">
+            <i class="fas fa-music"></i>
+        </div>
+
+        <!-- PORTADA -->
+        <section id="portada">
+            <div class="glass-card">
+                <img src="images/Logo Para Marca de Ropa Moderno Blanco y Negro.png" alt="Logo de XV Issa" class="logo-img">
+                
+                <p class="fecha-portada">14 · MARZO · 2026</p>
+                
+                <div class="frase-resaltada">
+                    Hay momentos que se vuelven inolvidables cuando se comparten con las personas que más queremos.
+                </div>
+
+                <div class="countdown" id="timer">
+                    <div class="time-unit"><span id="days">00</span><label>DÍAS</label></div>
+                    <div class="time-unit"><span id="hours">00</span><label>HRS</label></div>
+                    <div class="time-unit"><span id="mins">00</span><label>MIN</label></div>
+                    <div class="time-unit"><span id="secs">00</span><label>SEG</label></div>
+                </div>
+
+                <button class="btn btn-calendar" onclick="addToCalendar()">
+                    <i class="far fa-calendar-alt"></i> AGREGAR AL CALENDARIO
+                </button>
+            </div>
+        </section>
+
+        <!-- CRONOGRAMA -->
+        <section id="cronograma">
+            <div class="glass-card">
+                <h2 class="font-serif italic" style="font-size: 1.6rem; margin-bottom: 10px;">Itinerario</h2>
+                <div class="separator"></div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">5:00 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Ceremonia Religiosa</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">6:30 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Recepción / Fiesta</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">7:00 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Entrada</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">7:30 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Cena</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-time">8:30 PM</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Vals</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSTAGRAM -->
+        <section id="social">
+            <div class="glass-card">
+                <h2 class="font-serif italic" style="font-size: 1.2rem; margin-bottom: 10px;">¡Sígueme en Instagram!</h2>
+                <p style="font-size: 0.8rem; margin-bottom: 15px;">No te pierdas ningún detalle de este gran día.</p>
+                <a href="https://www.instagram.com/issa.pr_?igsh=MXJ2bGF0a3plcmFuNA==" target="_blank" class="btn btn-instagram">
+                    <i class="fab fa-instagram"></i> @issa.pr_
+                </a>
+            </div>
+        </section>
+
+        <!-- GALERÍA -->
+        <section id="galeria">
+            <h2 style="font-size: 1.8rem; color: var(--texto); margin-bottom: 20px;">Momentos</h2>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="images/issa.jpeg" alt="Foto de Issa 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/issa_pequena.jpeg" alt="Foto de Issa pequeña">
+                </div>
+            </div>
+        </section>
+
+        <!-- FAMILIA -->
+        <section id="padres">
+            <div class="glass-card">
+                <h2 class="font-serif italic" style="font-size: 1.4rem;">Con la bendición de mis padres</h2>
+                <div class="separator"></div>
+                <p style="font-size: 1.05rem;">
+                    <strong>Lucia Rosales Rodríguez</strong><br>
+                    <span style="color: var(--dorado);">&</span><br>
+                    <strong>Rafael Pineda Rivera</strong>
+                </p>
+                
+                <h2 class="font-serif italic" style="font-size: 1.4rem; margin-top: 20px;">Mi Madrina</h2>
+                <div class="separator"></div>
+                <p style="font-size: 1.05rem;">
+                    <strong>Carolina Rivera Díaz</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- UBICACIONES -->
+        <section id="ubicaciones">
+            <div class="glass-card">
+                <img src="images/iglesia.jpg" alt="Imagen de la Parroquia" class="iglesia-img">
+                <i class="fas fa-church" style="font-size: 1.4rem; color: var(--dorado); margin-bottom: 5px;"></i>
+                <h3 style="font-size: 1.3rem;">Ceremonia Religiosa</h3>
+                <p><strong>Parroquia de San Francisco Galileo</strong></p>
+                <p>17:00 Horas (5:00 PM)</p>
+                <p style="font-size: 0.75rem; color: #7f8c8d;">El Pueblito, Corregidora, Qro.</p>
+                <a href="https://maps.app.goo.gl/DGXMSm9QWjcaYWuTA" target="_blank" class="btn btn-map">
+                    <i class="fas fa-map-marker-alt"></i> VER MAPA
+                </a>
+            </div>
+
+            <div class="glass-card">
+                <i class="fas fa-glass-cheers" style="font-size: 1.4rem; color: var(--dorado); margin-bottom: 5px;"></i>
+                <h3 style="font-size: 1.3rem;">Recepción</h3>
+                <p><strong>Chocolate Azul Jardín</strong></p>
+                <p>18:30 Horas (6:30 PM)</p>
+                <a href="https://maps.app.goo.gl/28VZqnHdGxJ7nGxS6?g_st=iw" target="_blank" class="btn btn-map">
+                    <i class="fas fa-map-marker-alt"></i> VER MAPA
+                </a>
+            </div>
+        </section>
+
+        <!-- REGALOS -->
+        <section id="regalos">
+            <div class="glass-card">
+                <i class="fas fa-gift" style="font-size: 1.6rem; color: var(--dorado); margin-bottom: 10px;"></i>
+                <h2 style="font-size: 1.4rem;">Mesa de Regalos</h2>
+                <div class="separator"></div>
+                <p style="font-size: 0.85rem; margin-bottom: 15px;">Si deseas obsequiarme algo, puedes hacerlo a través de mi mesa de regalos:</p>
+                <a href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51935340" target="_blank" class="btn btn-liverpool">
+                    <i class="fas fa-shopping-bag"></i> MESA LIVERPOOL
+                </a>
+            </div>
+
+            <div class="flip-container" id="flipCard" onclick="this.classList.toggle('active')">
+                <div class="flipper">
+                    <div class="front">
+                        <i class="fas fa-envelope-open-text" style="font-size: 2rem; color: var(--dorado); margin-bottom: 10px;"></i>
+                        <h2 style="font-size: 1.4rem;">Lluvia de Sobres</h2>
+                        <div class="separator"></div>
+                        <p style="font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">(Toca la tarjeta para ver detalle)</p>
+                    </div>
+                    <div class="back">
+                        <p style="font-size: 0.9rem; color: var(--texto); padding: 10px; line-height: 1.6;">
+                            "La lluvia de sobres es la tradición de regalar dinero en efectivo en un sobre el día del evento."
+                        </p>
+                        <i class="fas fa-info-circle" style="color: var(--dorado); font-size: 1.2rem; margin-top: 10px;"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VESTIMENTA -->
+        <section id="vestimenta">
+            <div class="glass-card" style="border: 1.5px solid var(--dorado);">
+                <i class="fas fa-user-tie" style="font-size: 1.6rem; margin-bottom: 5px;"></i>
+                <h2 style="font-size: 1.4rem;">Código de Vestimenta</h2>
+                <div class="separator"></div>
+                <p style="font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;">Formal</p>
+                <p style="font-size: 0.8rem; font-style: italic; margin-top: 10px; color: #555;">
+                    Agradecemos su preferencia por cualquier color, exceptuando el <strong>Rosa</strong>, reservado para la quinceañera.
+                </p>
+            </div>
+        </section>
+
+        <!-- CONFIRMACIÓN -->
+        <section id="detalles">
+            <div class="glass-card">
+                <i class="fas fa-calendar-check" style="font-size: 1.5rem; color: var(--dorado); margin-bottom: 10px;"></i>
+                <h2 style="font-size: 1.2rem;">Confirmación</h2>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Es muy importante para nosotros contar con tu presencia.</p>
+                
+                <span class="confirm-date">Confirmar antes del 20 de febrero</span>
+                
+                <a href="https://wa.me/524462191045?text=Hola%20Issa!%20Confirmo%20mi%20asistencia%20a%20tus%20XV." target="_blank" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> CONFIRMAR ASISTENCIA
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>ISSA · 2026 · QUINCE AÑOS</p>
+        </footer>
+    </div>
+
+    <script>
+        const targetDate = new Date("March 14, 2026 15:00:00").getTime();
+        const music = document.getElementById("bgMusic");
+        const musicBtn = document.getElementById("musicToggle");
+        const envelope = document.getElementById("envelope");
+        const wrapper = document.getElementById("envelope-wrapper");
+        const mainContent = document.getElementById("main-content");
+
+        function openEnvelope() {
+            envelope.classList.add("open");
+            
+            setTimeout(() => {
+                wrapper.style.opacity = "0";
+                mainContent.classList.add("visible");
+                musicBtn.style.display = "flex";
+                
+                playMusic();
+                
+                setTimeout(() => {
+                    wrapper.style.display = "none";
+                }, 1000);
+            }, 1000);
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
+        }
+
+        function playMusic() {
+            music.play().then(() => {
+                musicBtn.classList.add("playing");
+            }).catch(e => console.log("Audio waiting for user interaction"));
+        }
+
+        function pauseMusic() {
+            music.pause();
+            musicBtn.classList.remove("playing");
+        }
+
+        const countdown = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (document.getElementById("days")) {
+                document.getElementById("days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("mins").innerText = minutes.toString().padStart(2, '0');
+                document.getElementById("secs").innerText = seconds.toString().padStart(2, '0');
+            }
+
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById("timer").innerHTML = "¡ES HOY!";
+            }
+        }, 1000);
+
+        function addToCalendar() {
+            const title = "XV Años de Issa";
+            const details = "Ceremonia religiosa y recepción de los XV años de Issa.";
+            const location = "Parroquia de San Francisco Galileo, El Pueblito, Qro.";
+            const startDate = "20260314T150000Z";
+            const endDate = "20260315T020000Z";
+            const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+            window.open(googleUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
+
+
